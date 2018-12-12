@@ -1,10 +1,7 @@
 package setup;
 
-import model.CardMatchResult;
-import model.CardMatchResultHistory;
+import model.*;
 import party.Participant;
-import model.Card;
-import model.Suit;
 
 public final class Dealer {
 
@@ -23,23 +20,17 @@ public final class Dealer {
     }
 
     public static CardMatchResult processTurn(Card playerCard, Card opponentCard){
-        Participant opponent = match.getOpponent();
-        Participant player = match.getPlayer();
-        Suit commander = match.getCommander();
-        CardMatchResult cardMatchResult;
-
-        if(player.isInitiator()){
-            /** TODO: This is still not good, because we have no compiler support if we accidentally swap the first or last two arguments. */
-            cardMatchResult = CardMatchResult.create(playerCard, opponentCard, commander, player, opponent);
-        } else {
-            cardMatchResult = CardMatchResult.create(opponentCard, playerCard, commander, opponent, player);
-        }
+        CardMatchResult cardMatchResult = CardMatchResult.create(playerCard, opponentCard, match.getCommander(), match.getPlayer(), match.getOpponent());
         serveCards();
+        printEndOfTurn();
+
+        return cardMatchResult;
+    }
+
+    private static void printEndOfTurn() {
         System.out.println();
         System.out.println("Turn is over.");
         System.out.println();
-
-        return cardMatchResult;
     }
 
     private static void fillCardSheets(Participant player, Participant opponent) {

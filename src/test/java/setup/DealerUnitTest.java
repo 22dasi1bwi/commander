@@ -1,9 +1,6 @@
 package setup;
 
-import model.Card;
-import model.CardMatchResult;
-import model.Rank;
-import model.Suit;
+import model.*;
 import org.junit.Before;
 import org.junit.Test;
 import party.Participant;
@@ -26,8 +23,8 @@ public class DealerUnitTest {
     public void withPositiveCardMatchResultForPlayer (){
         Participant player = match.getPlayer();
         player.setInitiator(true);
-        Card playerCard = new Card(commander, Rank.CAVALLO);
-        Card opponentCard = new Card(commander, Rank.DUE);
+        Card playerCard = new PlayerCard(commander, Rank.CAVALLO);
+        Card opponentCard = new OpponentCard(commander, Rank.DUE);
 
         CardMatchResult result = Dealer.processTurn(playerCard, opponentCard);
 
@@ -38,8 +35,8 @@ public class DealerUnitTest {
     public void withPositiveCardMatchResultForOpponent (){
         Participant opponent = match.getOpponent();
         opponent.setInitiator(true);
-        Card playerCard = new Card(commander, Rank.CAVALLO);
-        Card opponentCard = new Card(commander, Rank.RE);
+        Card playerCard = new PlayerCard(commander, Rank.CAVALLO);
+        Card opponentCard = new OpponentCard(commander, Rank.RE);
 
         CardMatchResult result = Dealer.processTurn(playerCard, opponentCard);
 

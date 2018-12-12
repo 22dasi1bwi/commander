@@ -1,6 +1,6 @@
 package model;
 
-public final class Card {
+public class Card {
 
     private final Suit suit;
 
@@ -26,8 +26,8 @@ public final class Card {
      * 2) the suit of the passed instance does not match the commander suit.
      */
     public boolean beats(Card initiatorCard, Suit commanderSuit){
-        Suit reactorSuit = initiatorCard.suit;
-        boolean isSameSuit = reactorSuit.equals(suit);
+        Suit initiatorSuit = initiatorCard.suit;
+        boolean isSameSuit = initiatorSuit.equals(suit);
         if(isSameSuit){
             return hasHigherRankThan(initiatorCard);
         } else {

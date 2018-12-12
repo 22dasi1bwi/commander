@@ -1,6 +1,6 @@
 package setup;
 
-import party.Ai;
+import party.Opponent;
 import party.Participant;
 import party.Player;
 import model.Suit;
@@ -18,7 +18,7 @@ public final class Match {
     public static Match getInstance(Suit commander) {
         if(MATCH_INSTNACE == null){
             // TODO we should be able to handle other players instead AIs later on as well.
-            return new Match(new Player(), new Ai(), commander);
+            return new Match(new Player(), new Opponent(), commander);
         }
         return MATCH_INSTNACE;
     }
@@ -55,6 +55,7 @@ public final class Match {
         return commander;
     }
 
+    /** TODO: Not sure if I like that method in here. */
     public boolean areHandsEmpty(){
         return getPlayer().getCardSheet().isEmpty() && getOpponent().getCardSheet().isEmpty();
     }

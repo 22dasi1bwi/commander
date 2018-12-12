@@ -3,10 +3,10 @@ package party;
 import model.Card;
 
 /**
- * AI. Should have full control over the card sheet of the opponent as well. We need that because we want to
+ * Should have full control over the card sheet of the opponent as well. We need that because we want to
  * evaluate the best game plan.
  */
-public class Ai extends Participant {
+public class Opponent extends Participant {
 
     @Override
     public Card use(Card card) {

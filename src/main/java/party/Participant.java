@@ -45,4 +45,9 @@ public abstract class Participant {
     public abstract Card use(Card card);
 
     public abstract String getName();
+
+    @Override
+    public String toString(){
+        return getName();
+    }
 }
