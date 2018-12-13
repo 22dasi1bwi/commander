@@ -1,7 +1,7 @@
 package Runner;
 
-import party.Participant;
 import model.Card;
+import party.Participant;
 import setup.Dealer;
 import setup.Match;
 

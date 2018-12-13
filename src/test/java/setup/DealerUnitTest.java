@@ -5,7 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import party.Participant;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class DealerUnitTest {
 

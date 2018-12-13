@@ -1,6 +1,9 @@
 package setup;
 
-import model.*;
+import model.Card;
+import model.CardMatchResult;
+import model.CardMatchResultHistory;
+import model.Suit;
 import party.Participant;
 
 public final class Dealer {

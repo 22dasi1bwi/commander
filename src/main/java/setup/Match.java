@@ -1,9 +1,9 @@
 package setup;
 
+import model.Suit;
 import party.Opponent;
 import party.Participant;
 import party.Player;
-import model.Suit;
 
 public final class Match {
 
