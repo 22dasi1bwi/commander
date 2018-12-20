@@ -2,6 +2,7 @@ package party;
 
 import model.Card;
 import model.CardSheet;
+import model.Suit;
 
 import java.util.Collection;
 import java.util.Stack;
@@ -50,4 +51,6 @@ public abstract class Participant {
     public String toString(){
         return getName();
     }
+
+    public abstract Card findBestStrategy(CardSheet playerCardSheet, Card playerCard, Suit commander);
 }

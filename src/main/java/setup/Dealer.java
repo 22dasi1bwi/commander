@@ -1,9 +1,6 @@
 package setup;
 
-import model.Card;
-import model.CardMatchResult;
-import model.CardMatchResultHistory;
-import model.Suit;
+import model.*;
 import party.Participant;
 
 public final class Dealer {
@@ -23,7 +20,10 @@ public final class Dealer {
     }
 
     public static CardMatchResult processTurn(Card playerCard, Card opponentCard){
-        CardMatchResult cardMatchResult = CardMatchResult.create(playerCard, opponentCard, match.getCommander(), match.getPlayer(), match.getOpponent());
+        PlayerCard cardForPlayer = new PlayerCard(playerCard.getSuit(), playerCard.getRank());
+        OpponentCard cardForOpponent = new OpponentCard(opponentCard.getSuit(), opponentCard.getRank());
+
+        CardMatchResult cardMatchResult = CardMatchResult.create(cardForPlayer, cardForOpponent, match.getCommander(), match.getPlayer(), match.getOpponent());
         serveCards();
         printEndOfTurn();
 

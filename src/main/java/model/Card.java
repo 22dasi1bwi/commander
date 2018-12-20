@@ -1,5 +1,9 @@
 package model;
 
+import java.util.Arrays;
+
+import static java.util.stream.Collectors.toList;
+
 public class Card {
 
     private final Suit suit;
@@ -33,6 +37,14 @@ public class Card {
         } else {
             return this.matchesCommanderSuit(commanderSuit);
         }
+    }
+
+    public boolean isValuable(){
+        return Arrays.stream(Rank.values()).filter(rank -> rank.getPoints() > 0).collect(toList()).contains(getRank());
+    }
+
+    public boolean isMajor(){
+        return this.rank.equals(Rank.ASSO) || this.rank.equals(Rank.TRE);
     }
 
     public Suit getSuit() {
