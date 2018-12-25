@@ -39,7 +39,7 @@ public class CardSheet {
     }
 
     public Optional<Card> getLeastForSuit(Suit suit){
-        return cards.stream().filter(card -> card.getSuit().equals(suit)).min(Comparator.comparing(Card::getRank));
+        return cards.stream().filter(card -> card.getSuit().equals(suit)).min(Comparator.comparing(Card::getValue));
     }
 
     @Override

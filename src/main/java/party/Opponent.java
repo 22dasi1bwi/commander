@@ -1,10 +1,11 @@
 package party;
 
 import model.Card;
+import model.CardMatchSimulator;
 import model.CardSheet;
-import model.PlayerCard;
 import model.Suit;
 
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import static java.util.stream.Collectors.toList;
@@ -23,22 +24,35 @@ public class Opponent extends Participant {
 
         List<Card> availableCards = getCardSheet().getAll();
         List<Card> cardsWhichWouldBeatPlayerCard = availableCards.stream().filter(card -> card.beats(playerCard, commanderSuit)).collect(toList());
-        Card bestCardToUse = availableCards.get(0);
 
+        Card bestCardToUse;
+
+        // TODO: Consider the gathered points as well -> breakout of usual algorithm; if card-match would win us the match, take it!
         if(cardsWhichWouldBeatPlayerCard.isEmpty()){
-            // first step - return card with least value
-            bestCardToUse = availableCards.stream().min(Comparator.comparing(Card::getRank)).get();
+            // TODO: Only return commander if multiples are available
+            bestCardToUse = availableCards.stream().min(Comparator.comparing(Card::getValue)).get();
             // TODO: future - card which potentially would we beaten by player (if AI is initiator in the future) and has lowest points
-
         } else {
-            // judge if it's worth to beat it
-            if (playerCard.isValuable()){
-                // TODO: either highest rank of matching suit or least commander
-                bestCardToUse = cardsWhichWouldBeatPlayerCard.stream().max(Comparator.comparing(Card::getRank)).orElse(getCardSheet().getLeastForSuit(commanderSuit).get());
+            if (playerCard.isMajor() || playerCard.isValuable()){
+                // This is ok, as a first approach, but we have to make this more intelligent.
+                // TODO: If playerCard is not a major but lower points only, consider to play cards that could not beat that card as well!
+                // TODO: We might want to consider to take the points if we have to commanders available
+                bestCardToUse = cardsWhichWouldBeatPlayerCard.stream().filter(card -> card.getSuit().equals(playerCard.getSuit())).max(Comparator.comparing(Card::getValue)).orElse(getCardSheet().getLeastForSuit(commanderSuit).get());
             } else {
-               // evaluate if the cards which would not beat the player's card are too much of a loss to use. In that case we would beat the card anyway.
-                List<Card> cardsWhichWouldNotBeatPlayersCard = availableCards.stream().filter(cardsWhichWouldBeatPlayerCard::contains).collect(toList());
-//                cardsWhichWouldNotBeatPlayersCard.stream().filter(Card::isMajor)
+                Collection<Card> cardsWhichWouldNotBeatPlayerCard = availableCards.stream().filter(card -> !card.beats(playerCard, commanderSuit)).collect(toList());
+                if(cardsWhichWouldNotBeatPlayerCard.isEmpty()){
+                    // We have no way to play reactive here, since all of our cards beat the player card.
+                    // Get the card which rewards us with the most points.
+                    bestCardToUse = CardMatchSimulator.simulate(getCardSheet(), playerCard, commanderSuit);
+                } else {
+                    /** TODO: Should we respect the following scenario?
+                     * COMMANDER: COPPE
+                     * Opponent's cards: QUATTRO di SPADE, CINQUE di DENARI, CAVALLO di BASTONI*
+                     * Player card is: CINQUE di BASTONI *
+                     * Current bestCardToUse would be : QUATTRO di SPADE (because of the lowest value)
+                     * Is CAVALLO di BASTONI the better option in this case? */
+                    bestCardToUse = cardsWhichWouldNotBeatPlayerCard.stream().min(Comparator.comparing(Card::getValue)).get();
+                }
             }
         }
         return bestCardToUse;

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 import static java.util.stream.Collectors.toList;
 
@@ -39,6 +40,13 @@ public class Card {
         }
     }
 
+    public int beatsWithValue(Card initiatorCard, Suit commanderSuit){
+       if(beats(initiatorCard, commanderSuit)) {
+           return initiatorCard.getRank().getPoints();
+       }
+       return 0;
+    }
+
     public boolean isValuable(){
         return Arrays.stream(Rank.values()).filter(rank -> rank.getPoints() > 0).collect(toList()).contains(getRank());
     }
@@ -53,6 +61,10 @@ public class Card {
 
     public Rank getRank() {
         return rank;
+    }
+
+    public int getValue (){
+        return getRank().getValue();
     }
 
     @Override
